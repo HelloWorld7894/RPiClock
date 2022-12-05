@@ -23,7 +23,7 @@ def close(event):
     global running
     running = False
 
-def MoveMouse(): #just to wake up the waveshare screen
+def MoveMouse(channel): #just to wake up the waveshare screen
     print("move")
     pyautogui.moveTo(100, 100)
     pyautogui.moveTo(150, 150)
