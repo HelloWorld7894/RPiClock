@@ -73,26 +73,6 @@ def Update():
 
     #seconds
     canvas.create_line(100, 100, 100+80*math.sin(math.radians(now.second*min_ratio)), 100-80*math.cos(math.radians(now.second*min_ratio)), fill="white", width=2)
-    """
-    add_x = [100, 100, -100, -100]
-    add_y = [-106, 106, 106, -106]
-    for i in range(6, 13, 6):
-        if now.hour <= i: 
-            hour_angle = (hour_ratio * now.hour) - (90 * (i / 6 - 1))
-            hour_x = abs(add_x[int(i / 6) - 1] + round(math.sin(hour_angle) * 40))
-            hour_y = abs(add_y[int(i / 6) - 1] + round(math.cos(hour_angle) * 40))
-
-
-
-    for i in range(15, 61, 15):
-        if now.minute <= i: 
-            min_angle = (min_ratio * now.minute) - (90 * (i / 15 - 1))
-            min_x = abs(add_x[int(i / 15) - 1] + round(math.sin(min_angle) * 80))
-            min_y = abs(add_y[int(i / 15) - 1] + round(math.cos(min_angle) * 80))
-
-    canvas.create_line(100, 106, hour_x, hour_y, fill="white", width=5)
-    canvas.create_line(100, 106, min_x, min_y, fill="white", width=5)
-    """
 
     window.after(1000, Update)
 
