@@ -24,6 +24,7 @@ def close(event):
     running = False
 
 def MoveMouse(): #just to wake up the waveshare screen
+    print("move")
     pyautogui.moveTo(100, 100)
     pyautogui.moveTo(150, 150)
     pyautogui.moveTo(100, 100)
@@ -33,7 +34,7 @@ def MoveMouse(): #just to wake up the waveshare screen
 #
 ctk.set_appearance_mode("dark")
 window = ctk.CTk()
-window.attributes('-fullscreen', True)
+#window.attributes('-fullscreen', True)
 window.configure(bg='black')
 window.bind('<Escape>', close)
 
