@@ -36,9 +36,12 @@ canvas = ctk.CTkCanvas(window, width=200, height=212, bg='black')
 timelabel = Label(window, text="", font=("NovaMono", 20), bg="black", fg="white")
 datelabel = Label(window, text="", font=("Bahnschrift", 15), bg="black", fg="white")
 
+footer = Label(window, text="RPiClock, very useless clock that just tells time", font=("NovaMono", 10), bg="black", fg="white")
+
 datelabel.pack()
 timelabel.pack()
 canvas.pack()
+footer.pack()
 
 #canvas setup
 Path = os.path.abspath(__file__)
@@ -47,9 +50,7 @@ Path = Path[:len(Path)-11] + "imgs/clock.png"
 img = PhotoImage(file = Path)
 canvas.create_image((100, 106), image=img)
 
-
-
-def UpdateTime():
+def Update():
     if running == False:
         exit(1)
 
@@ -63,40 +64,27 @@ def UpdateTime():
     canvas.delete("all")
     canvas.create_image((100, 106), image=img)
     
-    hour_angle = hour_ratio * now.hour
-    min_angle = min_ratio * now.minute
+    add_x = [100, 100, -100, -100]
+    add_y = [-106, 106, 106, -106]
+    for i in range(6, 25, 6):
+        if now.hour <= i: 
+            hour_angle = (hour_ratio * now.hour) - (90 * (i / 6 - 1))
+            hour_x = abs(add_x[int(i / 6) - 1] + round(math.sin(hour_angle) * 40))
+            hour_y = abs(add_y[int(i / 6) - 1] + round(math.cos(hour_angle) * 40))
 
-    hour_x = round(math.sin(hour_angle) * 80)
-    hour_y = round(math.cos(hour_angle) * 80)
-    
-    min_x = round(math.sin(min_angle) * 40)
-    min_y = round(math.cos(min_angle) * 40)
 
-    if now.hour > 6:
-        hour_x = 100 - hour_x
-    else:
-        hour_x = 100 + hour_x
 
-    if 3 < now.hour < 6:
-        hour_y = 106 - hour_y
-    else:
-        hour_y = 100 + hour_y
-
-    if now.minute > 30:
-        min_x = 100 - min_x
-    else:
-        min_x = 100 + min_x
-
-    if 15 < now.minute < 30:
-        min_y = 106 - min_y
-    else:
-        min_y = 100 + min_y
+    for i in range(15, 61, 15):
+        if now.minute <= i: 
+            min_angle = (min_ratio * now.minute) - (90 * (i / 15 - 1))
+            min_x = abs(add_x[int(i / 15) - 1] + round(math.sin(min_angle) * 80))
+            min_y = abs(add_y[int(i / 15) - 1] + round(math.cos(min_angle) * 80))
 
     canvas.create_line(100, 106, hour_x, hour_y, fill="white", width=5)
     canvas.create_line(100, 106, min_x, min_y, fill="white", width=5)
 
-    window.after(1000, UpdateTime)
+    window.after(1000, Update)
 
-UpdateTime()
+Update()
 
 window.mainloop()
