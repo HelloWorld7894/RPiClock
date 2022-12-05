@@ -48,13 +48,14 @@ Path = os.path.abspath(__file__)
 Path = Path[:len(Path)-11] + "imgs/clock.png"
 
 img = PhotoImage(file = Path)
-canvas.create_image((100, 106), image=img)
+canvas.create_image((100, 100), image=img)
 
 def Update():
     if running == False:
         exit(1)
 
     now = datetime.now()
+    Hour = now.hour if now.hour <= 12 else now.hour - 12 #formatting to 12-hour format
 
     #change time
     timelabel.configure(text=now.strftime("%H:%M:%S"))
@@ -62,11 +63,20 @@ def Update():
 
     #change analog clock value
     canvas.delete("all")
-    canvas.create_image((100, 106), image=img)
+    canvas.create_image((100, 100), image=img)
+
+    #hours
+    canvas.create_line(100, 100, 100+40*math.sin(math.radians(Hour*hour_ratio)), 100-40*math.cos(math.radians(Hour*hour_ratio)), fill="white", width=5)
     
+    #minutes
+    canvas.create_line(100, 100, 100+80*math.sin(math.radians(now.minute*min_ratio)), 100-80*math.cos(math.radians(now.minute*min_ratio)), fill="white", width=5)
+
+    #seconds
+    canvas.create_line(100, 100, 100+80*math.sin(math.radians(now.second*min_ratio)), 100-80*math.cos(math.radians(now.second*min_ratio)), fill="white", width=2)
+    """
     add_x = [100, 100, -100, -100]
     add_y = [-106, 106, 106, -106]
-    for i in range(6, 25, 6):
+    for i in range(6, 13, 6):
         if now.hour <= i: 
             hour_angle = (hour_ratio * now.hour) - (90 * (i / 6 - 1))
             hour_x = abs(add_x[int(i / 6) - 1] + round(math.sin(hour_angle) * 40))
@@ -82,6 +92,7 @@ def Update():
 
     canvas.create_line(100, 106, hour_x, hour_y, fill="white", width=5)
     canvas.create_line(100, 106, min_x, min_y, fill="white", width=5)
+    """
 
     window.after(1000, Update)
 
