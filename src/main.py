@@ -39,7 +39,7 @@ window.bind('<Escape>', close)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(12, GPIO.RISING, callback=MoveMouse)
+GPIO.add_event_detect(37, GPIO.RISING, callback=MoveMouse)
 
 #
 # RUN
