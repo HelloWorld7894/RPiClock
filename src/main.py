@@ -6,17 +6,10 @@ from datetime import datetime
 
 import os
 import sys
+import RPi.GPIO as GPIO
+import pyautogui
 
 import math
-
-#
-# SETUP
-#
-ctk.set_appearance_mode("dark")
-window = ctk.CTk()
-window.attributes('-fullscreen', True)
-#window.geometry("320x240")
-window.configure(bg='black')
 
 #
 # VARIABLES
@@ -30,7 +23,27 @@ def close(event):
     global running
     running = False
 
+def MoveMouse(): #just to wake up the waveshare screen
+    pyautogui.moveTo(100, 100)
+    pyautogui.moveTo(150, 150)
+    pyautogui.moveTo(100, 100)
+
+#
+# SETUP
+#
+ctk.set_appearance_mode("dark")
+window = ctk.CTk()
+window.attributes('-fullscreen', True)
+window.configure(bg='black')
 window.bind('<Escape>', close)
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(12, GPIO.RISING, callback=MoveMouse)
+
+#
+# RUN
+#
 canvas = ctk.CTkCanvas(window, width=200, height=212, bg='black')
 
 timelabel = Label(window, text="", font=("NovaMono", 20), bg="black", fg="white")
