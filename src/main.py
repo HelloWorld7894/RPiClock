@@ -14,8 +14,8 @@ import math
 #
 ctk.set_appearance_mode("dark")
 window = ctk.CTk()
-#window.attributes('-fullscreen', True) #update later
-window.geometry("320x240")
+window.attributes('-fullscreen', True)
+#window.geometry("320x240")
 window.configure(bg='black')
 
 #
